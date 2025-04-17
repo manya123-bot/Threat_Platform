@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Intelligence Platform</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle, #1a1a2e, #16213e, #0f3460, #533483);
+            color: white;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            position: absolute;
+            top: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 400;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00aaff;
+        }
+
+        .auth a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .btn {
+            background: #00aaff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0088cc;
+        }
+
+        main {
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .search-box input {
+            width: 400px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            outline: none;
+            text-align: center;
+        }
+
+        .search-box input::placeholder {
+            color: #ccc;
+        }
+
+        .search-box .btn {
+            padding: 12px 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+    </style>
+    
+    <script>
+        function fetchThreatData() {
+            const ip = document.getElementById("ipInput").value;
+            fetch('http://localhost:3000/fetch_data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ip: ip })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">TIP</div>
+        <nav>
+            <ul>
+                <li><a href="#">Threat Intelligence API</a></li>
+                <li><a href="#">Docs</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Solutions</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="#">Login</a>
+            <button class="btn">Try Free</button>
+        </div>
+    </header>
+
+    <main>
+        <h1>Threat Intelligence Lookup</h1>
+        <h2>Analyze IP Threat Data</h2>
+        <p>Enter an IP address to check its threat intelligence status:</p>
+        <div class="search-box">
+            <input type="text" id="ipInput" placeholder="Enter IP Address">
+            <button class="btn" onclick="fetchThreatData()">Check IP</button>
+        </div>
+        <pre id="result"></pre>
+    </main>
+</body>
+</html>
